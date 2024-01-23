@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
-import java.net.SocketTimeoutException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,19 +37,35 @@ public class KmaApiClient {
     }
 
     public String midTermCall(String regId, String tmFc) {
-        HashMap<String, String> param = new HashMap<>();
-        param.put("serviceKey", config.getApiKey());
-        param.put("numOfRows", "50");
-        param.put("pageNo", "1");
-        param.put("dataType", "JSON");
-        param.put("regId", regId);
-        param.put("tmFc", tmFc);
+        HashMap<String, String> param = new HashMap<>() {{
+            put("serviceKey", config.getApiKey());
+            put("numOfRows", "50");
+            put("pageNo", "1");
+            put("dataType", "JSON");
+            put("regId", regId);
+            put("tmFc", tmFc);
+        }};
 
         return midTermCall(param);
     }
 
     public String shortTermCall(Map<String, String> param) {
         return get(config.getShortBaseUrl() + config.getShortPath(), param);
+    }
+
+    public String shortTermCall(int nx, int ny, String base_date, String base_time) {
+        HashMap<String, String> param = new HashMap<>() {{
+            put("serviceKey", config.getApiKey());
+            put("numOfRows", "50");
+            put("pageNo", "1");
+            put("dataType", "JSON");
+            put("base_data", base_date);
+            put("base_time", base_time);
+            put("nx", Integer.toString(nx));
+            put("ny", Integer.toString(ny));
+        }};
+
+        return shortTermCall(param);
     }
 
     public String ultraShortTermCall(Map<String, String> param) {
