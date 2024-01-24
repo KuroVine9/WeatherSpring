@@ -53,8 +53,7 @@ public class KmaApiImpl implements KmaApiInterface {
             }
             case 3 -> throw new NoSuchElementException();
             case 10, 11 -> throw new IllegalArgumentException();
-            case 21, 22, 30 ->
-                    throw new SocketTimeoutException(Integer.toString(code)); // 이상하게 간헐적으로 30이 발생하는 경우가 많아서 일단 일시적 오류로 처리
+            case 21, 22 -> throw new SocketTimeoutException(Integer.toString(code));
             default -> throw new UnknownError(Integer.toString(code));
         }
     }
