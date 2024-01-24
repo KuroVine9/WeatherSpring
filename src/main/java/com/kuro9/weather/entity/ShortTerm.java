@@ -15,10 +15,10 @@ import javax.persistence.Entity;
 public class ShortTerm {
 
     @EmbeddedId
-    private ShortTermPK shortTermPK;
+    private ShortTermPK id;
 
-    private String baseDate;
-    private String baseTime;
+    private String fcstDate;
+    private String fcstTime;
 
     /* 예보 값 */
     private String fcstValue;

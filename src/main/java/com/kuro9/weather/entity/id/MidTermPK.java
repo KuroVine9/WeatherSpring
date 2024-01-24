@@ -1,9 +1,6 @@
 package com.kuro9.weather.entity.id;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Embeddable;
 import java.io.Serializable;
@@ -13,6 +10,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Getter
+@Builder
 public class MidTermPK implements Serializable {
     // 지역 코드
     private String regId;

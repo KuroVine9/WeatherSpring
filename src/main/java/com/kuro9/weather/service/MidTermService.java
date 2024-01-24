@@ -26,7 +26,7 @@ public class MidTermService extends MidTermInterface {
 
     @Override
     public MidTermDto readMidTermLog(String regId) {
-        String tmFc = getMidTermTimeCode();
+        String tmFc = getTimeCode();
         MidTermPK pk = new MidTermPK(regId, tmFc);
         MidTerm midTerm = midTermRp.findById(pk).orElseThrow();
         return new MidTermDto(regId, tmFc, midTerm.toData());

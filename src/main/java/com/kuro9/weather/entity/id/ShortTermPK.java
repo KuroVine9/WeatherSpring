@@ -1,9 +1,6 @@
 package com.kuro9.weather.entity.id;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Embeddable;
 import java.io.Serializable;
@@ -13,9 +10,10 @@ import java.io.Serializable;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Getter
+@Builder
 public class ShortTermPK implements Serializable {
-    private String fcstDate;
-    private String fcstTime;
+    private String baseDate;
+    private String baseTime;
     private String category;
     private int nx;
     private int ny;

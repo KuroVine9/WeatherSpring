@@ -27,7 +27,7 @@ public class MidTermServiceWithFallbackProxy extends MidTermInterface {
 
     @Override
     public MidTermDto readMidTermLog(String regId) throws NoSuchElementException, IllegalArgumentException, SocketTimeoutException {
-        String tmFc = getMidTermTimeCode();
+        String tmFc = getTimeCode();
         try {
             return midTermService.readMidTermLog(regId);
         }

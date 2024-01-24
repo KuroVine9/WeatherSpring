@@ -13,7 +13,7 @@ public abstract class MidTermInterface {
      */
     public abstract MidTermDto readMidTermLog(String regId) throws NoSuchElementException, IllegalArgumentException, SocketTimeoutException;
 
-    protected String getMidTermTimeCode() {
+    protected String getTimeCode() {
         LocalDateTime currentDateTime = LocalDateTime.now();
 
         int hour = currentDateTime.getHour();
