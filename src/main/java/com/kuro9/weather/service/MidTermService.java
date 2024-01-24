@@ -24,8 +24,10 @@ public class MidTermService extends MidTermInterface {
     public MidTermDto readMidTermLog(String regId) throws SocketTimeoutException {
         String tmFc = getTimeCode();
         MidApiResponse apiResponse = api.midTermCall(regId, tmFc);
+
         if (apiResponse.response.body.items.item.isEmpty()) throw new NoSuchElementException();
         MidTermCallData data = apiResponse.response.body.items.item.get(0);
+
         return new MidTermDto(
                 regId, tmFc,
                 data.toData()

@@ -178,7 +178,7 @@ public class KmaApiClient {
 
     @NoArgsConstructor
     public static class UltraShortParamBuilder {
-        private int numOfRows = 100;
+        private int numOfRows = 60;
         private int pageNo = 1;
         private String base_date;
         private String base_time;

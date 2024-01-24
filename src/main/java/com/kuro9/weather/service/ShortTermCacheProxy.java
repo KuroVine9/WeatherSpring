@@ -52,7 +52,9 @@ public class ShortTermCacheProxy extends ShortTermInterface {
         var result = repo.findAllByIdBaseDateAndIdBaseTimeAndIdNxAndIdNyAndFcstDateAndFcstTime(baseDate, baseTime, nx, ny, fcstDate, fcstTime);
 
         if (result == null || result.isEmpty()) { // DB 데이터 없음
-            return shortTermService.readShortTermLog(nx, ny, hourOffset);
+            var apiResult = shortTermService.readShortTermLog(nx, ny, hourOffset);
+            storeShortTermData(apiResult);
+            return apiResult;
         }
 
         List<ShortTermDto.ShortTermCategory> items = result.stream()

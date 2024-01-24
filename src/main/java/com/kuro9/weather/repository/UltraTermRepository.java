@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface UltraTermRepository extends JpaRepository<UltraTerm, UltraTermPK> {
-    List<UltraTerm> findAllByIdBaseDateAndIdBaseTimeAndIdNxAndIdNyAndFcstDateAndFcstTime(String baseDate, String baseTime, int nx, int ny, String fcstDate, String fcstTime);
+    List<UltraTerm> findAllByIdBaseDateAndIdBaseTimeAndIdNxAndIdNy(String baseDate, String baseTime, int nx, int ny);
 }
