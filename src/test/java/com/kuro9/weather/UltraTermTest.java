@@ -2,8 +2,8 @@ package com.kuro9.weather;
 
 import com.kuro9.weather.repository.UltraTermRepository;
 import com.kuro9.weather.service.UltraTermCacheProxy;
-import com.kuro9.weather.service.UltraTermInterface;
 import com.kuro9.weather.service.UltraTermService;
+import com.kuro9.weather.service.interfaces.UltraTermInterface;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

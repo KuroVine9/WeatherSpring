@@ -4,6 +4,7 @@ import com.kuro9.weather.dataclass.MidTermDto;
 import com.kuro9.weather.dataclass.apicall.MidApiResponse;
 import com.kuro9.weather.dataclass.apicall.MidTermCallData;
 import com.kuro9.weather.service.apicall.KmaApiInterface;
+import com.kuro9.weather.service.interfaces.MidTermInterface;
 import org.springframework.stereotype.Service;
 
 import java.net.SocketTimeoutException;

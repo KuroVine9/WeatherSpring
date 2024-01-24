@@ -4,6 +4,7 @@ import com.kuro9.weather.dataclass.ShortTermDto;
 import com.kuro9.weather.entity.ShortTerm;
 import com.kuro9.weather.entity.id.ShortTermPK;
 import com.kuro9.weather.repository.ShortTermRepository;
+import com.kuro9.weather.service.interfaces.ShortTermInterface;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 

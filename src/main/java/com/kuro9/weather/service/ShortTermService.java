@@ -5,6 +5,7 @@ import com.kuro9.weather.dataclass.apicall.ShortApiResponse;
 import com.kuro9.weather.dataclass.apicall.ShortTermCallData;
 import com.kuro9.weather.service.apicall.KmaApiClient;
 import com.kuro9.weather.service.apicall.KmaApiInterface;
+import com.kuro9.weather.service.interfaces.ShortTermInterface;
 import org.springframework.stereotype.Service;
 
 import java.net.SocketTimeoutException;

@@ -1,7 +1,7 @@
 package com.kuro9.weather.controller;
 
 import com.kuro9.weather.dataclass.UltraTermDto;
-import com.kuro9.weather.service.UltraTermInterface;
+import com.kuro9.weather.service.interfaces.UltraTermInterface;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

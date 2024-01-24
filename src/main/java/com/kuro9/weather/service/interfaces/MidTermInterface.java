@@ -1,4 +1,4 @@
-package com.kuro9.weather.service;
+package com.kuro9.weather.service.interfaces;
 
 import com.kuro9.weather.dataclass.MidTermDto;
 

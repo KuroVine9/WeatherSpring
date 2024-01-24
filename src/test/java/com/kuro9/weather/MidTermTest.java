@@ -2,8 +2,8 @@ package com.kuro9.weather;
 
 import com.kuro9.weather.repository.MidTermRepository;
 import com.kuro9.weather.service.MidTermCacheProxy;
-import com.kuro9.weather.service.MidTermInterface;
 import com.kuro9.weather.service.MidTermService;
+import com.kuro9.weather.service.interfaces.MidTermInterface;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

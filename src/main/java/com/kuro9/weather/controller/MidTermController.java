@@ -1,7 +1,7 @@
 package com.kuro9.weather.controller;
 
 import com.kuro9.weather.dataclass.MidTermDto;
-import com.kuro9.weather.service.MidTermInterface;
+import com.kuro9.weather.service.interfaces.MidTermInterface;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

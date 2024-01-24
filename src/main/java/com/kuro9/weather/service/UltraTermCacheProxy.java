@@ -5,6 +5,7 @@ import com.kuro9.weather.dataclass.UltraTermDto.UltraTermCategory;
 import com.kuro9.weather.entity.UltraTerm;
 import com.kuro9.weather.entity.id.UltraTermPK;
 import com.kuro9.weather.repository.UltraTermRepository;
+import com.kuro9.weather.service.interfaces.UltraTermInterface;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 

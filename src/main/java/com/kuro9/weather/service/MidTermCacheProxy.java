@@ -4,6 +4,7 @@ import com.kuro9.weather.dataclass.MidTermDto;
 import com.kuro9.weather.entity.MidTerm;
 import com.kuro9.weather.entity.id.MidTermPK;
 import com.kuro9.weather.repository.MidTermRepository;
+import com.kuro9.weather.service.interfaces.MidTermInterface;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 

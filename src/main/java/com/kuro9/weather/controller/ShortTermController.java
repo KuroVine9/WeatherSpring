@@ -1,7 +1,7 @@
 package com.kuro9.weather.controller;
 
 import com.kuro9.weather.dataclass.ShortTermDto;
-import com.kuro9.weather.service.ShortTermInterface;
+import com.kuro9.weather.service.interfaces.ShortTermInterface;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

@@ -4,6 +4,7 @@ import com.kuro9.weather.dataclass.UltraTermDto;
 import com.kuro9.weather.dataclass.apicall.UltraApiResponse;
 import com.kuro9.weather.dataclass.apicall.UltraTermCallData;
 import com.kuro9.weather.service.apicall.KmaApiInterface;
+import com.kuro9.weather.service.interfaces.UltraTermInterface;
 import org.springframework.stereotype.Service;
 
 import java.net.SocketTimeoutException;
