@@ -1,51 +1,74 @@
 package com.kuro9.weather;
 
+import com.kuro9.weather.repository.MidTermRepository;
+import com.kuro9.weather.service.MidTermCacheProxy;
 import com.kuro9.weather.service.MidTermInterface;
-import com.kuro9.weather.service.apicall.KmaApiClient;
+import com.kuro9.weather.service.MidTermService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.NoSuchElementException;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 public class MidTermTest {
     private final String testRegionId = "11B00000";
-    private final String midTermTime = getMidTermTime();
     @Autowired
-    private MidTermInterface midTermService;
+    private MidTermInterface mid;
     @Autowired
-    private KmaApiClient apiClient;
+    private MidTermService midService;
+    @Autowired
+    private MidTermCacheProxy midTermCacheProxy;
+    @Autowired
+    private MidTermRepository repo;
 
-    public String getMidTermTime() {
-        LocalDateTime currentDateTime = LocalDateTime.now();
-
-        int hour = currentDateTime.getHour();
-        LocalDateTime closestTime;
-
-        if (hour < 6) {
-            closestTime = currentDateTime.minusDays(1).withHour(18).withMinute(0).withSecond(0).withNano(0);
-        }
-        else if (hour < 18) {
-            closestTime = LocalDateTime.of(currentDateTime.toLocalDate(), java.time.LocalTime.of(6, 0));
-        }
-        else {
-            closestTime = LocalDateTime.of(currentDateTime.toLocalDate(), java.time.LocalTime.of(18, 0));
-        }
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
-        return closestTime.format(formatter);
-    }
-    
 
     @Test
     public void serviceMidTerm() {
         boolean result = false;
         try {
-            System.out.println(midTermService.readMidTermLog(testRegionId));
+            System.out.println(mid.readMidTermLog(testRegionId));
+            result = true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(result);
+    }
+
+    @Test
+    public void invalidRegId() {
+        assertThrows(NoSuchElementException.class, () -> {
+            mid.readMidTermLog("hello");
+        });
+    }
+
+    @Test
+    public void apiServiceTest() {
+        boolean result = false;
+        try {
+            System.out.println(midService.readMidTermLog(testRegionId));
+            result = true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(result);
+    }
+
+    @Test
+    public void dbProxyTest() {
+        MidTermCacheProxy testObj = new MidTermCacheProxy(null, repo);
+        boolean result = false;
+        try {
+            midTermCacheProxy.readMidTermLog(testRegionId);
+
+            System.out.println(testObj.readMidTermLog(testRegionId));
             result = true;
         }
         catch (Exception e) {

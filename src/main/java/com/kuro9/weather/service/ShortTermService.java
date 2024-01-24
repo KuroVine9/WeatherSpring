@@ -54,13 +54,9 @@ public class ShortTermService extends ShortTermInterface {
             if (i + 1 == dataCount / 100) break;
 
             response = api.shortTermCall(
-                    (new KmaApiClient.ShortParamBuilder())
+                    (new KmaApiClient.ShortParamBuilder(baseDate, baseTime, nx, ny))
                             .numOfRows(100)
                             .pageNo(i + 1)
-                            .base_date(baseDate)
-                            .base_time(baseTime)
-                            .nx(nx)
-                            .ny(ny)
                             .build()
             );
         }

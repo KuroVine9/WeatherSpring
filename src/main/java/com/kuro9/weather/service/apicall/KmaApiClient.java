@@ -1,7 +1,6 @@
 package com.kuro9.weather.service.apicall;
 
 import com.kuro9.weather.config.WeatherApiConfig;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
@@ -41,11 +40,9 @@ public class KmaApiClient {
 
     public String midTermCall(String regId, String tmFc) {
         return midTermCall(
-                (new MidParamBuilder())
+                (new MidParamBuilder(regId, tmFc))
                         .numOfRows(50)
                         .pageNo(1)
-                        .regId(regId)
-                        .tmFc(tmFc)
                         .build()
         );
     }
@@ -59,14 +56,7 @@ public class KmaApiClient {
 
     public String shortTermCall(int nx, int ny, String base_date, String base_time) {
         return shortTermCall(
-                (new ShortParamBuilder())
-                        .numOfRows(100)
-                        .pageNo(1)
-                        .base_date(base_date)
-                        .base_time(base_time)
-                        .nx(nx)
-                        .ny(ny)
-                        .build()
+                (new ShortParamBuilder(base_date, base_time, nx, ny)).build()
         );
     }
 
@@ -79,22 +69,19 @@ public class KmaApiClient {
 
     public String ultraShortTermCall(int nx, int ny, String base_date, String base_time) {
         return ultraShortTermCall(
-                (new UltraShortParamBuilder())
-                        .numOfRows(100)
-                        .pageNo(1)
-                        .base_date(base_date)
-                        .base_time(base_time)
-                        .nx(nx)
-                        .ny(ny)
-                        .build()
+                (new UltraParamBuilder(base_date, base_time, nx, ny)).build()
         );
     }
 
-    @NoArgsConstructor
     public static class MidParamBuilder {
         private int numOfRows = 50;
         private int pageNo = 1;
         private String regId, tmFc;
+
+        public MidParamBuilder(String regId, String tmFc) {
+            this.regId = regId;
+            this.tmFc = tmFc;
+        }
 
         public MidParamBuilder numOfRows(int numOfRows) {
             this.numOfRows = numOfRows;
@@ -126,13 +113,19 @@ public class KmaApiClient {
         }
     }
 
-    @NoArgsConstructor
     public static class ShortParamBuilder {
         private int numOfRows = 100;
         private int pageNo = 1;
         private String base_date;
         private String base_time;
         private int nx, ny;
+
+        public ShortParamBuilder(String base_date, String base_time, int nx, int ny) {
+            this.base_time = base_time;
+            this.base_date = base_date;
+            this.nx = nx;
+            this.ny = ny;
+        }
 
         public ShortParamBuilder numOfRows(int numOfRows) {
             this.numOfRows = numOfRows;
@@ -176,40 +169,46 @@ public class KmaApiClient {
         }
     }
 
-    @NoArgsConstructor
-    public static class UltraShortParamBuilder {
+    public static class UltraParamBuilder {
         private int numOfRows = 60;
         private int pageNo = 1;
         private String base_date;
         private String base_time;
         private int nx, ny;
 
-        public UltraShortParamBuilder numOfRows(int numOfRows) {
+        public UltraParamBuilder(String base_date, String base_time, int nx, int ny) {
+            this.base_time = base_time;
+            this.base_date = base_date;
+            this.nx = nx;
+            this.ny = ny;
+        }
+
+        public UltraParamBuilder numOfRows(int numOfRows) {
             this.numOfRows = numOfRows;
             return this;
         }
 
-        public UltraShortParamBuilder pageNo(int pageNo) {
+        public UltraParamBuilder pageNo(int pageNo) {
             this.pageNo = pageNo;
             return this;
         }
 
-        public UltraShortParamBuilder base_date(String base_date) {
+        public UltraParamBuilder base_date(String base_date) {
             this.base_date = base_date;
             return this;
         }
 
-        public UltraShortParamBuilder base_time(String base_time) {
+        public UltraParamBuilder base_time(String base_time) {
             this.base_time = base_time;
             return this;
         }
 
-        public UltraShortParamBuilder nx(int nx) {
+        public UltraParamBuilder nx(int nx) {
             this.nx = nx;
             return this;
         }
 
-        public UltraShortParamBuilder ny(int ny) {
+        public UltraParamBuilder ny(int ny) {
             this.ny = ny;
             return this;
         }
