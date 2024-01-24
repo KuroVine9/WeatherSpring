@@ -2,7 +2,7 @@ ifndef::snippets[]
 :snippets: ./build/generated-snippets
 endif::[]
 
-= API Doc
+= API Docs
 
 === 중기예보 조회
 
@@ -17,6 +17,10 @@ include::{snippets}/get-mid-term-forecast/curl-request.adoc[]
 ==== Require Param
 
 include::{snippets}/get-mid-term-forecast/request-parameters.adoc[]
+
+==== Response Field
+
+include::{snippets}/get-mid-term-forecast/response-fields.adoc[]
 
 
 
@@ -34,6 +38,9 @@ include::{snippets}/get-short-term-forecast/curl-request.adoc[]
 
 include::{snippets}/get-short-term-forecast/request-parameters.adoc[]
 
+==== Response Field
+
+include::{snippets}/get-short-term-forecast/response-fields.adoc[]
 
 
 === 초단기예보 조회
@@ -50,3 +57,6 @@ include::{snippets}/get-ultra-short-term-forecast/curl-request.adoc[]
 
 include::{snippets}/get-ultra-short-term-forecast/request-parameters.adoc[]
 
+==== Response Field
+
+include::{snippets}/get-ultra-short-term-forecast/response-fields.adoc[]
