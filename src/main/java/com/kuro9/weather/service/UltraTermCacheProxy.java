@@ -14,6 +14,9 @@ import java.net.SocketTimeoutException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+/**
+ * db에 저장되어 있는지 체크 후 없다면 원래 동작 시행
+ */
 @Primary
 @Service
 public class UltraTermCacheProxy extends UltraTermInterface {

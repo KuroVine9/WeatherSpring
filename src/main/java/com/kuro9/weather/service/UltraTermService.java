@@ -11,6 +11,9 @@ import java.net.SocketTimeoutException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+/**
+ * 기상청 api와 연결
+ */
 @Service
 public class UltraTermService extends UltraTermInterface {
 
