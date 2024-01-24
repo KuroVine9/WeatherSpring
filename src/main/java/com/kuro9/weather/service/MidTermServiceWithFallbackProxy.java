@@ -39,7 +39,7 @@ public class MidTermServiceWithFallbackProxy extends MidTermInterface {
                     regId, tmFc,
                     data.toData()
             );
-            midTermService.createMidTermLog(result);
+            midTermService.storeMidTermData(result);
             return result;
         }
     }

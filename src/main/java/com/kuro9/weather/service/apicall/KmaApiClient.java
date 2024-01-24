@@ -50,16 +50,21 @@ public class KmaApiClient {
     }
 
     public String shortTermCall(Map<String, String> param) {
+        param.put("serviceKey", config.getApiKey());
+        param.put("dataType", "JSON");
+
+        param.putIfAbsent("numOfRows", "100");
+        param.putIfAbsent("pageNo", "1");
         return get(config.getShortBaseUrl() + config.getShortPath(), param);
     }
 
     public String shortTermCall(int nx, int ny, String base_date, String base_time) {
         HashMap<String, String> param = new HashMap<>() {{
             put("serviceKey", config.getApiKey());
-            put("numOfRows", "50");
+            put("numOfRows", "100");
             put("pageNo", "1");
             put("dataType", "JSON");
-            put("base_data", base_date);
+            put("base_date", base_date);
             put("base_time", base_time);
             put("nx", Integer.toString(nx));
             put("ny", Integer.toString(ny));

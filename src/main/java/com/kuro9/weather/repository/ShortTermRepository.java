@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ShortTermRepository extends JpaRepository<ShortTerm, ShortTermPK> {
-    List<ShortTerm> findAllByIdBaseDateAndIdBaseTimeAndIdNxAndIdNy(String date, String time, int nx, int ny);
+    List<ShortTerm> findAllByIdBaseDateAndIdBaseTimeAndIdNxAndIdNyAndFcstDateAndFcstTime(String baseDate, String baseTime, int nx, int ny, String fcstDate, String fcstTime);
 }

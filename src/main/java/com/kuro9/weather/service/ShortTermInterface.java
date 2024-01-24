@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
 
 public abstract class ShortTermInterface {
 
-    public abstract ShortTermDto readShortTermLog(int nx, int ny) throws NoSuchElementException, IllegalArgumentException, SocketTimeoutException;
+    public abstract ShortTermDto readShortTermLog(int nx, int ny, int hourOffset) throws NoSuchElementException, IllegalArgumentException, SocketTimeoutException;
 
 
     protected String getBaseDate() {
@@ -43,5 +43,17 @@ public abstract class ShortTermInterface {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmm");
         return closestTime.format(formatter);
+    }
+
+    protected String getOffsetDate(int offsetHour) {
+        var time = LocalDateTime.now().plusHours(offsetHour).withMinute(0).withSecond(0).withNano(0);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        return time.format(formatter);
+    }
+
+    protected String getOffsetTime(int offsetHour) {
+        var time = LocalDateTime.now().plusHours(offsetHour).withMinute(0).withSecond(0).withNano(0);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmm");
+        return time.format(formatter);
     }
 }

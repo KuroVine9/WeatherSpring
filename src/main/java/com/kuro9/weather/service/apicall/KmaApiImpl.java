@@ -3,6 +3,7 @@ package com.kuro9.weather.service.apicall;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.kuro9.weather.dataclass.apicall.ApiErrorData;
+import com.kuro9.weather.dataclass.apicall.HeaderInterface;
 import com.kuro9.weather.dataclass.apicall.MidApiResponse;
 import com.kuro9.weather.dataclass.apicall.ShortApiResponse;
 import org.springframework.stereotype.Service;
@@ -20,15 +21,15 @@ public class KmaApiImpl implements KmaApiInterface {
     }
 
     /**
-     * {@link RuntimeException}: api키 만료 등 치명적인 오류 시 throw
-     *
      * @param str  json 스트링
      * @param type 타깃 객체
      * @throws SocketTimeoutException 일시적으로 기상청 api 사용 불가할 때
      */
-    private <T> T toJson(String str, Class<T> type) throws SocketTimeoutException {
+    private <T extends HeaderInterface> T toJson(String str, Class<T> type) throws SocketTimeoutException, NoSuchElementException, IllegalArgumentException, UnknownError {
         try {
-            return (new ObjectMapper()).readValue(str, type);
+            T result = (new ObjectMapper()).readValue(str, type);
+            errorSwitch(result.getResultCode());
+            return result;
         }
         catch (Exception e) {
             ApiErrorData error;
@@ -40,12 +41,21 @@ public class KmaApiImpl implements KmaApiInterface {
                 throw new RuntimeException("파싱 실패");
             }
 
-            switch (error.getCmmMsgHeader().getReturnReasonCode()) {
-                case 3 -> throw new NoSuchElementException();
-                case 10, 11 -> throw new IllegalArgumentException();
-                case 21, 22, 30 -> throw new SocketTimeoutException(); // 이상하게 간헐적으로 30이 발생하는 경우가 많아서 일단 일시적 오류로 처리
-                default -> throw new RuntimeException("기상청 api 에러 코드 " + error.getCmmMsgHeader().getReturnReasonCode());
+            errorSwitch(error.getCmmMsgHeader().getReturnReasonCode());
+
+            throw new IllegalStateException("UnHandled Error or something");
+        }
+    }
+
+    private void errorSwitch(int code) throws SocketTimeoutException, NoSuchElementException, IllegalArgumentException, UnknownError {
+        switch (code) {
+            case 0 -> {
             }
+            case 3 -> throw new NoSuchElementException();
+            case 10, 11 -> throw new IllegalArgumentException();
+            case 21, 22, 30 ->
+                    throw new SocketTimeoutException(Integer.toString(code)); // 이상하게 간헐적으로 30이 발생하는 경우가 많아서 일단 일시적 오류로 처리
+            default -> throw new UnknownError(Integer.toString(code));
         }
     }
 

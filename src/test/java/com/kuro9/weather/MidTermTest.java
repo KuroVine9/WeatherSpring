@@ -5,7 +5,6 @@ import com.kuro9.weather.service.apicall.KmaApiClient;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.event.annotation.BeforeTestMethod;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -39,16 +38,6 @@ public class MidTermTest {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
         return closestTime.format(formatter);
-    }
-
-    @BeforeTestMethod
-    public void beforeTest() {
-        // 초기 api 콜 안하면 api가 30 에러 내고 시작하기 때문에 삽입
-        try {
-            apiClient.midTermCall(testRegionId, midTermTime);
-        }
-        catch (Exception ignored) {
-        }
     }
 
     @Test

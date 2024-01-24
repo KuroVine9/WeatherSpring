@@ -20,7 +20,7 @@ public class MidTermService extends MidTermInterface {
     }
 
     @Transactional
-    public void createMidTermLog(MidTermDto midTerm) {
+    public void storeMidTermData(MidTermDto midTerm) {
         midTermRp.save(new MidTerm(midTerm.getRegId(), midTerm.getTmFc(), midTerm.toData()));
     }
 

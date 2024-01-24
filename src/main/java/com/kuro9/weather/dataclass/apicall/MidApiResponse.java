@@ -10,8 +10,18 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class MidApiResponse {
+public class MidApiResponse implements HeaderInterface {
     public Response response;
+
+    @Override
+    public int getResultCode() {
+        return Integer.parseInt(response.header.resultCode);
+    }
+
+    @Override
+    public String getResultMsg() {
+        return response.header.resultMsg;
+    }
 
     public static class Response {
         public Header header;

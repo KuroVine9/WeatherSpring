@@ -3,14 +3,26 @@ package com.kuro9.weather.dataclass.apicall;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Getter
-public class ShortApiResponse {
+public class ShortApiResponse implements HeaderInterface {
     public Response response;
+
+    @Override
+    public int getResultCode() {
+        return Integer.parseInt(response.header.resultCode);
+    }
+
+    @Override
+    public String getResultMsg() {
+        return response.header.resultMsg;
+    }
 
     public static class Response {
         public Header header;
