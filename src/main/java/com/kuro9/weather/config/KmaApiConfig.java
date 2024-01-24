@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "weather.api")
 @Getter
 @Setter
-public class WeatherApiConfig {
+public class KmaApiConfig {
     private String midBaseUrl;
     private String shortBaseUrl;
     private String shortPath;

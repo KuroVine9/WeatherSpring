@@ -1,6 +1,6 @@
 package com.kuro9.weather.service.apicall;
 
-import com.kuro9.weather.config.WeatherApiConfig;
+import com.kuro9.weather.config.KmaApiConfig;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
@@ -15,9 +15,9 @@ import java.util.Map;
  */
 @Service
 public class KmaApiClient {
-    private final WeatherApiConfig config;
+    private final KmaApiConfig config;
 
-    public KmaApiClient(WeatherApiConfig config) {
+    public KmaApiClient(KmaApiConfig config) {
         this.config = config;
     }
 

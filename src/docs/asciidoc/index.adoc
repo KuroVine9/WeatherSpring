@@ -1,0 +1,52 @@
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+= API Doc
+
+=== 중기예보 조회
+
+==== Example response
+
+include::{snippets}/get-mid-term-forecast/http-response.adoc[]
+
+==== CURL request
+
+include::{snippets}/get-mid-term-forecast/curl-request.adoc[]
+
+==== Require Param
+
+include::{snippets}/get-mid-term-forecast/request-parameters.adoc[]
+
+
+
+=== 단기예보 조회
+
+==== Example response
+
+include::{snippets}/get-short-term-forecast/http-response.adoc[]
+
+==== CURL request
+
+include::{snippets}/get-short-term-forecast/curl-request.adoc[]
+
+==== Require Param
+
+include::{snippets}/get-short-term-forecast/request-parameters.adoc[]
+
+
+
+=== 초단기예보 조회
+
+==== Example response
+
+include::{snippets}/get-ultra-short-term-forecast/http-response.adoc[]
+
+==== CURL request
+
+include::{snippets}/get-ultra-short-term-forecast/curl-request.adoc[]
+
+==== Require Param
+
+include::{snippets}/get-ultra-short-term-forecast/request-parameters.adoc[]
+
