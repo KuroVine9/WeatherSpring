@@ -3,7 +3,8 @@ package com.kuro9.weather.service.apicall;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.kuro9.weather.dataclass.apicall.ApiErrorData;
-import com.kuro9.weather.dataclass.apicall.ApiResponse;
+import com.kuro9.weather.dataclass.apicall.MidApiResponse;
+import com.kuro9.weather.dataclass.apicall.ShortApiResponse;
 import org.springframework.stereotype.Service;
 
 import java.net.SocketTimeoutException;
@@ -49,12 +50,22 @@ public class KmaApiImpl implements KmaApiInterface {
     }
 
     @Override
-    public ApiResponse midTermCall(String regId, String tmFc) throws SocketTimeoutException {
-        return toJson(api.midTermCall(regId, tmFc), ApiResponse.class);
+    public MidApiResponse midTermCall(String regId, String tmFc) throws SocketTimeoutException {
+        return toJson(api.midTermCall(regId, tmFc), MidApiResponse.class);
     }
 
     @Override
-    public ApiResponse midTermCall(Map<String, String> param) throws SocketTimeoutException {
-        return toJson(api.midTermCall(param), ApiResponse.class);
+    public MidApiResponse midTermCall(Map<String, String> param) throws SocketTimeoutException {
+        return toJson(api.midTermCall(param), MidApiResponse.class);
+    }
+
+    @Override
+    public ShortApiResponse shortTermCall(int nx, int ny, String base_date, String base_time) throws SocketTimeoutException {
+        return toJson(api.shortTermCall(nx, ny, base_date, base_time), ShortApiResponse.class);
+    }
+
+    @Override
+    public ShortApiResponse shortTermCall(Map<String, String> param) throws SocketTimeoutException {
+        return toJson(api.shortTermCall(param), ShortApiResponse.class);
     }
 }

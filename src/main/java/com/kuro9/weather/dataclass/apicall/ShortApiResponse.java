@@ -9,7 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class ApiResponse {
+public class ShortApiResponse {
     public Response response;
 
     public static class Response {
@@ -23,16 +23,14 @@ public class ApiResponse {
 
         public static class Body {
             public String dataType;
-            public Body.Items items;
+            public Items items;
             public int pageNo;
             public int numOfRows;
             public int totalCount;
 
             public static class Items {
-                public List<MidTermCallData> item;
+                public List<ShortTermCallData> item;
             }
         }
     }
 }
-
-

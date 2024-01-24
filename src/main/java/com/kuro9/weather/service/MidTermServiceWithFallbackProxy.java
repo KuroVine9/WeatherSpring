@@ -1,7 +1,7 @@
 package com.kuro9.weather.service;
 
 import com.kuro9.weather.dataclass.MidTermDto;
-import com.kuro9.weather.dataclass.apicall.ApiResponse;
+import com.kuro9.weather.dataclass.apicall.MidApiResponse;
 import com.kuro9.weather.dataclass.apicall.MidTermCallData;
 import com.kuro9.weather.service.apicall.KmaApiInterface;
 import org.springframework.context.annotation.Primary;
@@ -32,7 +32,7 @@ public class MidTermServiceWithFallbackProxy extends MidTermInterface {
             return midTermService.readMidTermLog(regId);
         }
         catch (NoSuchElementException e) {
-            ApiResponse apiResponse = api.midTermCall(regId, tmFc);
+            MidApiResponse apiResponse = api.midTermCall(regId, tmFc);
             if (apiResponse.response.body.items.item.isEmpty()) throw new NoSuchElementException();
             MidTermCallData data = apiResponse.response.body.items.item.get(0);
             var result = new MidTermDto(

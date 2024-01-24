@@ -1,6 +1,6 @@
 package com.kuro9.weather;
 
-import com.kuro9.weather.dataclass.apicall.ApiResponse;
+import com.kuro9.weather.dataclass.apicall.MidApiResponse;
 import com.kuro9.weather.service.apicall.KmaApiImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +65,8 @@ public class JsonParseTest {
                 }
                 """;
 
-        ApiResponse result = ReflectionTestUtils.invokeMethod(api, "toJson", jsonStr, ApiResponse.class);
+        MidApiResponse result = ReflectionTestUtils.invokeMethod(api, "toJson", jsonStr, MidApiResponse.class);
         assertEquals("NORMAL_SERVICE", Objects.requireNonNull(result).response.header.resultMsg);
+        assertEquals("11B00000", Objects.requireNonNull(result).response.body.items.item.get(0).getRegId());
     }
 }
