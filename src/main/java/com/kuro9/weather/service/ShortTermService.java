@@ -3,6 +3,7 @@ package com.kuro9.weather.service;
 import com.kuro9.weather.dataclass.ShortTermDto;
 import com.kuro9.weather.dataclass.apicall.ShortApiResponse;
 import com.kuro9.weather.dataclass.apicall.ShortTermCallData;
+import com.kuro9.weather.service.apicall.KmaApiClient;
 import com.kuro9.weather.service.apicall.KmaApiInterface;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,6 @@ import java.net.SocketTimeoutException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.NoSuchElementException;
 
 
@@ -53,17 +53,16 @@ public class ShortTermService extends ShortTermInterface {
             }
             if (i + 1 == dataCount / 100) break;
 
-            int finalI = i;
-            HashMap<String, String> param = new HashMap<>() {{
-                put("numOfRows", "100");
-                put("pageNo", Integer.toString(finalI + 1));
-                put("base_date", baseDate);
-                put("base_time", baseTime);
-                put("nx", Integer.toString(nx));
-                put("ny", Integer.toString(ny));
-            }};
-            response = api.shortTermCall(param);
-
+            response = api.shortTermCall(
+                    (new KmaApiClient.ShortParamBuilder())
+                            .numOfRows(100)
+                            .pageNo(i + 1)
+                            .base_date(baseDate)
+                            .base_time(baseTime)
+                            .nx(nx)
+                            .ny(ny)
+                            .build()
+            );
         }
 
         if (filteredData.isEmpty()) throw new NoSuchElementException();

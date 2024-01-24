@@ -18,4 +18,8 @@ public interface KmaApiInterface {
 
     ShortApiResponse shortTermCall(Map<String, String> param) throws SocketTimeoutException;
 
+    ShortApiResponse ultraShortTermCall(int nx, int ny, String base_date, String base_time) throws SocketTimeoutException;
+
+    ShortApiResponse ultraShortTermCall(Map<String, String> param) throws SocketTimeoutException;
+
 }
