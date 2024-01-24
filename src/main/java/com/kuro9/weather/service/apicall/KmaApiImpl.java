@@ -1,5 +1,6 @@
 package com.kuro9.weather.service.apicall;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.kuro9.weather.dataclass.apicall.*;
@@ -28,7 +29,7 @@ public class KmaApiImpl implements KmaApiInterface {
             errorSwitch(result.getResultCode());
             return result;
         }
-        catch (Exception e) {
+        catch (JsonProcessingException e) {
             ApiErrorData error;
             try {
                 error = (new XmlMapper()).readValue(str, ApiErrorData.class);
