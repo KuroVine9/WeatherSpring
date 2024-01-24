@@ -1,5 +1,7 @@
 package com.kuro9.weather;
 
+import com.kuro9.weather.entity.MidTerm;
+import com.kuro9.weather.entity.id.MidTermPK;
 import com.kuro9.weather.repository.MidTermRepository;
 import com.kuro9.weather.service.MidTermCacheProxy;
 import com.kuro9.weather.service.MidTermService;
@@ -7,11 +9,11 @@ import com.kuro9.weather.service.interfaces.MidTermInterface;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.NoSuchElementException;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class MidTermTest {
@@ -42,9 +44,7 @@ public class MidTermTest {
 
     @Test
     public void invalidRegId() {
-        assertThrows(NoSuchElementException.class, () -> {
-            mid.readMidTermLog("hello");
-        });
+        assertThrows(NoSuchElementException.class, () -> mid.readMidTermLog("hello"));
     }
 
     @Test
@@ -65,14 +65,26 @@ public class MidTermTest {
     public void dbProxyTest() {
         MidTermCacheProxy testObj = new MidTermCacheProxy(null, repo);
         boolean result = false;
+        String timeCode = ReflectionTestUtils.invokeMethod(midTermCacheProxy, "getTimeCode");
         try {
-            midTermCacheProxy.readMidTermLog(testRegionId);
 
-            System.out.println(testObj.readMidTermLog(testRegionId));
+            MidTerm data = new MidTerm(
+                    new MidTermPK("testreg", timeCode),
+                    404, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", "", "", "", "", "", "", "", "", "", "", "", "");
+            repo.save(data);
+
+
+            var output = testObj.readMidTermLog("testreg");
+
+
+            assertEquals(404, output.getRnSt3Am());
             result = true;
         }
         catch (Exception e) {
             e.printStackTrace();
+        }
+        finally {
+            repo.deleteById(new MidTermPK("testreg", timeCode));
         }
 
         assertTrue(result);

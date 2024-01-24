@@ -1,5 +1,7 @@
 package com.kuro9.weather;
 
+import com.kuro9.weather.entity.ShortTerm;
+import com.kuro9.weather.entity.id.ShortTermPK;
 import com.kuro9.weather.repository.ShortTermRepository;
 import com.kuro9.weather.service.ShortTermCacheProxy;
 import com.kuro9.weather.service.ShortTermService;
@@ -7,11 +9,11 @@ import com.kuro9.weather.service.interfaces.ShortTermInterface;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.NoSuchElementException;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class ShortTermTest {
@@ -43,9 +45,7 @@ public class ShortTermTest {
 
     @Test
     public void withInvalidPos() {
-        assertThrows(NoSuchElementException.class, () -> {
-            srt.readShortTermLog(0, 0, 3);
-        });
+        assertThrows(NoSuchElementException.class, () -> srt.readShortTermLog(0, 0, 3));
     }
 
     @Test
@@ -66,14 +66,29 @@ public class ShortTermTest {
     public void dbProxyTest() {
         ShortTermCacheProxy testObj = new ShortTermCacheProxy(null, repo);
         boolean result = false;
+        String baseDate = ReflectionTestUtils.invokeMethod(shortTermCacheProxy, "getBaseDate");
+        String baseTime = ReflectionTestUtils.invokeMethod(shortTermCacheProxy, "getBaseTime");
+        String offsetDate = ReflectionTestUtils.invokeMethod(shortTermCacheProxy, "getOffsetDate", 3);
+        String offsetTime = ReflectionTestUtils.invokeMethod(shortTermCacheProxy, "getOffsetTime", 3);
         try {
-            shortTermCacheProxy.readShortTermLog(nx, ny, 3);
+            ShortTerm data = new ShortTerm(
+                    new ShortTermPK(baseDate, baseTime, "TST", 0, 0),
+                    offsetDate, offsetTime, "test"
+            );
+            repo.save(data);
 
-            System.out.println(testObj.readShortTermLog(nx, ny, 3));
+
+            var output = testObj.readShortTermLog(0, 0, 3);
+
+            assertFalse(output.getItems().isEmpty());
+            assertEquals("TST", output.getItems().get(0).getCategory());
             result = true;
         }
         catch (Exception e) {
             e.printStackTrace();
+        }
+        finally {
+            repo.deleteById(new ShortTermPK(baseDate, baseTime, "TST", 0, 0));
         }
 
         assertTrue(result);
