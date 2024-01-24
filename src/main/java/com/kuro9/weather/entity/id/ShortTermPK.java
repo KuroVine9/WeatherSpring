@@ -6,14 +6,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
+import java.io.Serializable;
 
 @Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
 @Getter
-public class ShortTermPK {
-    private String baseDate;
-    private String baseTime;
+public class ShortTermPK implements Serializable {
+    private String fcstDate;
+    private String fcstTime;
     private String category;
+    private int nx;
+    private int ny;
 }

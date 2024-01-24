@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+// 제너릭으로 하면 에러
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
