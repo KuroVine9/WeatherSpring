@@ -2,6 +2,7 @@ package com.kuro9.weather.service.apicall;
 
 import com.kuro9.weather.dataclass.apicall.MidApiResponse;
 import com.kuro9.weather.dataclass.apicall.ShortApiResponse;
+import com.kuro9.weather.dataclass.apicall.UltraApiResponse;
 
 import java.net.SocketTimeoutException;
 import java.util.Map;
@@ -18,8 +19,8 @@ public interface KmaApiInterface {
 
     ShortApiResponse shortTermCall(Map<String, String> param) throws SocketTimeoutException;
 
-    ShortApiResponse ultraShortTermCall(int nx, int ny, String base_date, String base_time) throws SocketTimeoutException;
+    UltraApiResponse ultraTermCall(int nx, int ny, String base_date, String base_time) throws SocketTimeoutException;
 
-    ShortApiResponse ultraShortTermCall(Map<String, String> param) throws SocketTimeoutException;
+    UltraApiResponse ultraTermCall(Map<String, String> param) throws SocketTimeoutException;
 
 }

@@ -1,6 +1,6 @@
 package com.kuro9.weather.entity;
 
-import com.kuro9.weather.entity.id.UltraShortTermPK;
+import com.kuro9.weather.entity.id.UltraTermPK;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,9 +12,9 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class UltraShortTerm {
+public class UltraTerm {
     @EmbeddedId
-    private UltraShortTermPK id;
+    private UltraTermPK id;
 
     private String fcstDate;
     private String fcstTime;

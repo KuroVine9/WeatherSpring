@@ -2,10 +2,7 @@ package com.kuro9.weather.service.apicall;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.kuro9.weather.dataclass.apicall.ApiErrorData;
-import com.kuro9.weather.dataclass.apicall.HeaderInterface;
-import com.kuro9.weather.dataclass.apicall.MidApiResponse;
-import com.kuro9.weather.dataclass.apicall.ShortApiResponse;
+import com.kuro9.weather.dataclass.apicall.*;
 import org.springframework.stereotype.Service;
 
 import java.net.SocketTimeoutException;
@@ -76,5 +73,15 @@ public class KmaApiImpl implements KmaApiInterface {
     @Override
     public ShortApiResponse shortTermCall(Map<String, String> param) throws SocketTimeoutException {
         return toJson(api.shortTermCall(param), ShortApiResponse.class);
+    }
+
+    @Override
+    public UltraApiResponse ultraTermCall(int nx, int ny, String base_date, String base_time) throws SocketTimeoutException {
+        return toJson(api.ultraShortTermCall(nx, ny, base_date, base_time), UltraApiResponse.class);
+    }
+
+    @Override
+    public UltraApiResponse ultraTermCall(Map<String, String> param) throws SocketTimeoutException {
+        return toJson(api.ultraShortTermCall(param), UltraApiResponse.class);
     }
 }

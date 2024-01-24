@@ -11,7 +11,7 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @Getter
 @Builder
-public class UltraShortTermPK implements Serializable {
+public class UltraTermPK implements Serializable {
     private String baseDate;
     private String baseTime;
     private String category;
