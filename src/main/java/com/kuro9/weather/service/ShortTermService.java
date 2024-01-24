@@ -1,57 +1,80 @@
 package com.kuro9.weather.service;
 
 import com.kuro9.weather.dataclass.ShortTermDto;
-import com.kuro9.weather.entity.ShortTerm;
-import com.kuro9.weather.entity.id.ShortTermPK;
-import com.kuro9.weather.repository.ShortTermRepository;
+import com.kuro9.weather.dataclass.apicall.ShortApiResponse;
+import com.kuro9.weather.dataclass.apicall.ShortTermCallData;
+import com.kuro9.weather.service.apicall.KmaApiInterface;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.List;
+import java.net.SocketTimeoutException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.NoSuchElementException;
 
+
+/**
+ * 기상청 api와 연결
+ */
 @Service
 public class ShortTermService extends ShortTermInterface {
-    private final ShortTermRepository repo;
+    private final KmaApiInterface api;
 
-    public ShortTermService(ShortTermRepository repo) {
-        this.repo = repo;
-    }
-
-    @Transactional
-    public void storeShortTermData(ShortTermDto shortTerm) {
-        var keyBuilder = ShortTermPK.builder()
-                .baseDate(shortTerm.getBaseDate())
-                .baseTime(shortTerm.getBaseTime())
-                .nx(shortTerm.getNx())
-                .ny(shortTerm.getNy());
-        for (ShortTermDto.ShortTermCategory data : shortTerm.getItems()) {
-            repo.save(new ShortTerm(
-                    keyBuilder.category(data.getCategory()).build(),
-                    data.getFcstDate(),
-                    data.getFcstTime(),
-                    data.getFcstValue()
-            ));
-        }
+    public ShortTermService(KmaApiInterface api) {
+        this.api = api;
     }
 
     @Override
-    public ShortTermDto readShortTermLog(int nx, int ny, int hourOffset) throws NoSuchElementException {
-        String baseDate = getBaseDate(), baseTime = getBaseTime(), fcstDate = getOffsetDate(hourOffset), fcstTime = getOffsetTime(hourOffset);
-        var result = repo.findAllByIdBaseDateAndIdBaseTimeAndIdNxAndIdNyAndFcstDateAndFcstTime(baseDate, baseTime, nx, ny, fcstDate, fcstTime);
-        if (result == null || result.isEmpty()) {
-            throw new NoSuchElementException();
+    public ShortTermDto readShortTermLog(int nx, int ny, int hourOffset) throws NoSuchElementException, SocketTimeoutException {
+        String baseTime = getBaseTime(), baseDate = getBaseDate(), fcstTime = getOffsetTime(hourOffset), fcstDate = getOffsetDate(hourOffset);
+        ArrayList<ShortTermCallData> filteredData = new ArrayList<>();
+
+        ShortApiResponse response = api.shortTermCall(nx, ny, baseDate, baseTime);
+        if (response.response.body.items.item.isEmpty()) throw new NoSuchElementException();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
+        LocalDateTime offsetTime = LocalDateTime.parse(fcstDate + fcstTime, formatter);
+
+        int dataCount = response.response.body.totalCount;
+
+        loop:
+        for (int i = 0; i < dataCount / 100; i++) {
+
+            for (var data : response.response.body.items.item) {
+                LocalDateTime time = LocalDateTime.parse(data.getFcstDate() + data.getFcstTime(), formatter);
+
+                if (time.isEqual(offsetTime)) {
+                    filteredData.add(data);
+                }
+                else if (time.isAfter(offsetTime)) {
+                    break loop;
+                }
+            }
+            if (i + 1 == dataCount / 100) break;
+
+            int finalI = i;
+            HashMap<String, String> param = new HashMap<>() {{
+                put("numOfRows", "100");
+                put("pageNo", Integer.toString(finalI + 1));
+                put("base_date", baseDate);
+                put("base_time", baseTime);
+                put("nx", Integer.toString(nx));
+                put("ny", Integer.toString(ny));
+            }};
+            response = api.shortTermCall(param);
+
         }
 
-        List<ShortTermDto.ShortTermCategory> items = result.stream()
-                .map(item ->
-                        new ShortTermDto.ShortTermCategory(
-                                item.getId().getCategory(),
-                                item.getFcstDate(),
-                                item.getFcstTime(),
-                                item.getFcstValue())
-                ).toList();
+        if (filteredData.isEmpty()) throw new NoSuchElementException();
 
-        return new ShortTermDto(baseDate, baseTime, nx, ny, items);
+        return new ShortTermDto(baseDate, baseTime, nx, ny, filteredData.stream().map(item ->
+                new ShortTermDto.ShortTermCategory(
+                        item.getCategory(),
+                        item.getFcstDate(),
+                        item.getFcstTime(),
+                        item.getFcstValue()
+                )).toList());
     }
+
 }

@@ -39,20 +39,7 @@ public class MidTermTest {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
         return closestTime.format(formatter);
     }
-
-    @Test
-    public void rawApiMidTerm() {
-        boolean result = false;
-        try {
-            System.out.println(apiClient.midTermCall(testRegionId, midTermTime));
-            result = true;
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        assertTrue(result);
-    }
+    
 
     @Test
     public void serviceMidTerm() {

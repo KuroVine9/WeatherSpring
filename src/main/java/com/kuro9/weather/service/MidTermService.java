@@ -1,34 +1,35 @@
 package com.kuro9.weather.service;
 
 import com.kuro9.weather.dataclass.MidTermDto;
-import com.kuro9.weather.entity.MidTerm;
-import com.kuro9.weather.entity.id.MidTermPK;
-import com.kuro9.weather.repository.MidTermRepository;
+import com.kuro9.weather.dataclass.apicall.MidApiResponse;
+import com.kuro9.weather.dataclass.apicall.MidTermCallData;
+import com.kuro9.weather.service.apicall.KmaApiInterface;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import java.net.SocketTimeoutException;
+import java.util.NoSuchElementException;
 
 /**
- * db에 존재하는 데이터를 조작하는 클래스.
+ * 기상청 api와 연결
  */
 @Service
 public class MidTermService extends MidTermInterface {
-    private final MidTermRepository midTermRp;
+    private final KmaApiInterface api;
 
-    public MidTermService(MidTermRepository mid) {
-        midTermRp = mid;
-    }
-
-    @Transactional
-    public void storeMidTermData(MidTermDto midTerm) {
-        midTermRp.save(new MidTerm(midTerm.getRegId(), midTerm.getTmFc(), midTerm.toData()));
+    public MidTermService(KmaApiInterface api) {
+        this.api = api;
     }
 
     @Override
-    public MidTermDto readMidTermLog(String regId) {
+    public MidTermDto readMidTermLog(String regId) throws SocketTimeoutException {
         String tmFc = getTimeCode();
-        MidTermPK pk = new MidTermPK(regId, tmFc);
-        MidTerm midTerm = midTermRp.findById(pk).orElseThrow();
-        return new MidTermDto(regId, tmFc, midTerm.toData());
+        MidApiResponse apiResponse = api.midTermCall(regId, tmFc);
+        if (apiResponse.response.body.items.item.isEmpty()) throw new NoSuchElementException();
+        MidTermCallData data = apiResponse.response.body.items.item.get(0);
+        return new MidTermDto(
+                regId, tmFc,
+                data.toData()
+        );
+
     }
 }
